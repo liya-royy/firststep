@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply — FirstStep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161920;
+      --card: #1c2030;
+      --border: #2a2f42;
+      --accent: #f97316;
+      --accent2: #3b82f6;
+      --text: #f0f2f8;
+      --muted: #8891aa;
+      --tag-bg: rgba(249,115,22,0.15);
+      --tag-color: #fb923c;
+      --success: #22c55e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ── GIG SUMMARY CARD ── */
+    .gig-summary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .gig-summary-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .category-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.2);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .beginner-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--tag-color);
+      background: var(--tag-bg);
+      border: 1px solid rgba(249,115,22,0.25);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .gig-summary h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .gig-summary .employer {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .gig-summary p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* ── FORM SECTION ── */
+    .form-header {
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.1s forwards;
+    }
+
+    .form-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── FORM ── */
+    .apply-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.2s forwards;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    label .required {
+      color: var(--accent);
+      margin-left: 2px;
+    }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--muted);
+      margin-left: 0.4rem;
+      font-size: 0.82rem;
+    }
+
+    input, textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--muted);
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      align-self: flex-start;
+      letter-spacing: 0.01em;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.88;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-box {
+      display: none;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .success-box .tick {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-box h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-box p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .success-box a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      nav ul { display: none; }
+      .page { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">First<span>Step</span></a>
+    <ul>
+      <li><a href="browse.html">Browse Gigs</a></li>
+      <li><a href="post.html">Post a Gig</a></li>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+    <a href="post.html" class="nav-cta">Post a Gig</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- BACK BUTTON -->
+    <a href="browse.html" class="back-link">← Back to Browse</a>
+
+    <!-- GIG SUMMARY (filled by JS) -->
+    <div class="gig-summary" id="gigSummary">
+      <div class="gig-summary-meta">
+        <span class="category-badge" id="gigCategory">Loading...</span>
+        <span class="beginner-tag">★ Beginner Friendly</span>
+      </div>
+      <h2 id="gigTitle">Loading gig...</h2>
+      <div class="employer" id="gigEmployer"></div>
+      <p id="gigDescription"></p>
+    </div>
+
+    <!-- FORM HEADER -->
+    <div class="form-header">
+      <h1>Submit Your Application</h1>
+      <p>Tell the employer a little about yourself. Keep it honest — they already know you're a beginner.</p>
+    </div>
+
+    <!-- APPLICATION FORM -->
+    <form class="apply-form" id="applyForm">
+
+      <div class="field">
+        <label>
+          Your Full Name <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          placeholder="e.g. Arjun Sharma"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label>
+          Your Skills <span class="required">*</span>
+          <span class="hint">— list what's relevant to this gig</span>
+        </label>
+        <input
+          type="text"
+          id="skills"
+          placeholder="e.g. HTML, CSS, basic JavaScript"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label>
+          Availability <span class="required">*</span>
+          <span class="hint">— when can you work on this?</span>
+        </label>
+        <input
+          type="text"
+          id="availability"
+          placeholder="e.g. Weekends, or Mon–Fri evenings after 6pm"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label>
+          Portfolio Link
+          <span class="hint">— optional but recommended</span>
+        </label>
+        <input
+          type="url"
+          id="portfolio_link"
+          placeholder="e.g. https://github.com/yourname"
+        />
+      </div>
+
+      <button type="button" class="submit-btn" id="submitBtn" onclick="submitApplication()">
+        Submit Application →
+      </button>
+
+    </form>
+
+    <!-- SUCCESS MESSAGE (hidden until form submitted) -->
+    <div class="success-box" id="successBox">
+      <div class="tick">🎉</div>
+      <h2>Application Submitted!</h2>
+      <p>Your application has been sent to the employer. This is your first step — be proud of it.</p>
+      <a href="browse.html">← Browse more gigs</a>
+    </div>
+
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────────────────
+    // SAME hardcoded gigs array as browse.html.
+    // This lets the page work without a backend for now.
+    // When you connect Flask, you'll replace this with a fetch() to GET /gigs.
+    // ─────────────────────────────────────────────────────────────────────────
+    const gigs = [
+      {
+        id: "1",
+        title: "Build a Simple Portfolio Website",
+        category: "Web Development",
+        employer_name: "Ravi's Bakery",
+        description: "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed — just enthusiasm and willingness to learn!",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-27"
+      },
+      {
+        id: "2",
+        title: "Design a Logo for our NGO",
+        category: "Graphic Design",
+        employer_name: "GreenRoots NGO",
+        description: "Looking for a fresh graduate to design a simple, meaningful logo. We'll guide you through our vision and give you feedback along the way.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-27"
+      },
+      {
+        id: "3",
+        title: "Write Product Descriptions for Online Store",
+        category: "Content Writing",
+        employer_name: "Mira Boutique",
+        description: "We have 20 clothing products that need short, catchy descriptions for our website. Perfect first writing gig — we provide a template to follow.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-26"
+      },
+      {
+        id: "4",
+        title: "Data Entry — Customer Records",
+        category: "Data Entry",
+        employer_name: "LocalMed Clinic",
+        description: "Enter patient appointment data from paper forms into our Google Sheet. Attention to detail is all that's required. Flexible hours, work from home.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-25"
+      }
+    ];
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // STEP 1: Read the gig ID from the URL.
+    // When someone clicks "Apply Now" on browse.html, the URL becomes
+    // apply.html?id=1  — the ?id=1 is called a query parameter.
+    // URLSearchParams is a built-in browser tool that reads these parameters.
+    // ─────────────────────────────────────────────────────────────────────────
+    const params = new URLSearchParams(window.location.search);
+    const gigId = params.get("id");
+
+    // STEP 2: Find the gig that matches this ID in our array.
+    const gig = gigs.find(g => g.id === gigId);
+
+    // STEP 3: Fill in the gig summary card at the top of the page.
+    if (gig) {
+      document.getElementById("gigCategory").textContent = gig.category;
+      document.getElementById("gigTitle").textContent = gig.title;
+      document.getElementById("gigEmployer").textContent = "Posted by " + gig.employer_name;
+      document.getElementById("gigDescription").textContent = gig.description;
+    } else {
+      // If no valid ID was found in the URL, show a fallback message.
+      document.getElementById("gigTitle").textContent = "Gig not found.";
+      document.getElementById("gigDescription").textContent = "Please go back and click Apply Now on a gig.";
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SUBMIT FUNCTION
+    // This runs when the student clicks "Submit Application".
+    // Right now it just shows the success message (no backend yet).
+    // Later you'll add a fetch() call here to POST to Flask's /apply route.
+    // ─────────────────────────────────────────────────────────────────────────
+    function submitApplication() {
+      // Read the values from the form fields.
+      const name = document.getElementById("name").value.trim();
+      const skills = document.getElementById("skills").value.trim();
+      const availability = document.getElementById("availability").value.trim();
+      const portfolio_link = document.getElementById("portfolio_link").value.trim();
+
+      // Basic validation — make sure required fields aren't empty.
+      if (!name || !skills || !availability) {
+        alert("Please fill in your name, skills, and availability before submitting.");
+        return;
+      }
+
+      // Build the application object — matches your agreed data structure exactly.
+      const application = {
+        gig_id: gigId,
+        name: name,
+        skills: skills,
+        availability: availability,
+        portfolio_link: portfolio_link
+      };
+
+      // ── CONNECT TO FLASK HERE LATER ──────────────────────────────────────
+      // When your teammate's Flask backend is running, replace the
+      // console.log below with this fetch() call:
+      //
+      // fetch("http://localhost:5000/apply", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(application)
+      // })
+      // .then(res => res.json())
+      // .then(data => showSuccess())
+      // .catch(err => alert("Something went wrong. Please try again."));
+      //
+      // For now, we just log it and show the success screen.
+      // ─────────────────────────────────────────────────────────────────────
+
+      console.log("Application to submit:", application);
+      showSuccess();
+    }
+
+    // Hides the form and shows the success message.
+    function showSuccess() {
+      document.getElementById("applyForm").style.display = "none";
+      document.getElementById("gigSummary").style.display = "none";
+      document.querySelector(".form-header").style.display = "none";
+      document.querySelector(".back-link").style.display = "none";
+
+      const successBox = document.getElementById("successBox");
+      successBox.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

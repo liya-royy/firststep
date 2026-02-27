@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Gig — FirstStep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161920;
+      --card: #1c2030;
+      --border: #2a2f42;
+      --accent: #f97316;
+      --accent2: #3b82f6;
+      --text: #f0f2f8;
+      --muted: #8891aa;
+      --tag-bg: rgba(249,115,22,0.15);
+      --tag-color: #fb923c;
+      --success: #22c55e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-browse {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .page-header .label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tag-bg);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-width: 500px;
+    }
+
+    /* ── FORM ── */
+    .post-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.15s forwards;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    label .required { color: var(--accent); margin-left: 2px; }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--muted);
+      margin-left: 0.4rem;
+      font-size: 0.82rem;
+    }
+
+    input, textarea, select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--muted);
+    }
+
+    /* Style the dropdown arrow to match dark theme */
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238891aa' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+    }
+
+    select option {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* ── LIVE PREVIEW CARD ── */
+    /* This shows employers a real-time preview of how their gig will look */
+    .preview-section {
+      margin-top: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.25s forwards;
+    }
+
+    .preview-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.3s;
+    }
+
+    .preview-card.has-content {
+      border-color: rgba(249,115,22,0.3);
+    }
+
+    .preview-card-meta {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .category-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.2);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .beginner-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--tag-color);
+      background: var(--tag-bg);
+      border: 1px solid rgba(249,115,22,0.25);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .preview-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      min-height: 1.4rem;
+    }
+
+    .preview-card .preview-employer {
+      font-size: 0.85rem;
+      color: var(--muted);
+      min-height: 1.2rem;
+    }
+
+    .preview-card .preview-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      min-height: 1.4rem;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.88;
+      transform: translateY(-2px);
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-box {
+      display: none;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .success-box .tick { font-size: 3rem; margin-bottom: 1rem; }
+
+    .success-box h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-box p { color: var(--muted); margin-bottom: 1.5rem; }
+    .success-box a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      nav ul { display: none; }
+      .page { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">First<span>Step</span></a>
+    <ul>
+      <li><a href="browse.html">Browse Gigs</a></li>
+      <li><a href="post.html">Post a Gig</a></li>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+    <a href="browse.html" class="nav-browse">Browse Gigs</a>
+  </nav>
+
+  <div class="page">
+
+    <a href="browse.html" class="back-link">← Back to Browse</a>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="label">For Employers</div>
+      <h1>Post a Gig</h1>
+      <p>Describe your task clearly and honestly. Students on FirstStep are beginners — the more context you give, the better the match.</p>
+    </div>
+
+    <!-- LIVE PREVIEW — shows employer what their card will look like -->
+    <div class="preview-section">
+      <div class="preview-label">Live Preview — this is how your gig will appear to students</div>
+      <div class="preview-card" id="previewCard">
+        <div class="preview-card-meta">
+          <span class="category-badge" id="previewCategory">Category</span>
+          <span class="beginner-tag">★ Beginner Friendly</span>
+        </div>
+        <h3 id="previewTitle">Your gig title will appear here...</h3>
+        <div class="preview-employer" id="previewEmployer">Your name</div>
+        <p class="preview-desc" id="previewDesc">Your description will appear here as you type...</p>
+      </div>
+    </div>
+
+    <br/>
+
+    <!-- POST A GIG FORM -->
+    <form class="post-form" id="postForm">
+
+      <div class="field">
+        <label>Gig Title <span class="required">*</span></label>
+        <input
+          type="text"
+          id="title"
+          placeholder="e.g. Build a simple website for my bakery"
+          required
+          oninput="updatePreview()"
+        />
+      </div>
+
+      <div class="field">
+        <label>Category <span class="required">*</span></label>
+        <!-- A dropdown is better than a text input here because it keeps
+             category values consistent — no typos, no variations.
+             This makes filtering on browse.html work perfectly. -->
+        <select id="category" required onchange="updatePreview()">
+          <option value="" disabled selected>Select a category...</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Graphic Design">Graphic Design</option>
+          <option value="Content Writing">Content Writing</option>
+          <option value="Data Entry">Data Entry</option>
+          <option value="Social Media">Social Media</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Your Name / Organisation <span class="required">*</span></label>
+        <input
+          type="text"
+          id="employer_name"
+          placeholder="e.g. Ravi's Bakery or GreenRoots NGO"
+          required
+          oninput="updatePreview()"
+        />
+      </div>
+
+      <div class="field">
+        <label>
+          Description <span class="required">*</span>
+          <span class="hint">— be specific about what you need done</span>
+        </label>
+        <textarea
+          id="description"
+          placeholder="Describe the task in detail. What exactly needs to be done? What will the student deliver at the end? Any tools or skills needed?"
+          required
+          oninput="updatePreview()"
+        ></textarea>
+      </div>
+
+      <button type="button" class="submit-btn" onclick="submitGig()">
+        Post this Gig →
+      </button>
+
+    </form>
+
+    <!-- SUCCESS MESSAGE -->
+    <div class="success-box" id="successBox">
+      <div class="tick">🚀</div>
+      <h2>Gig Posted!</h2>
+      <p>Your gig is now live on FirstStep. Students can browse and apply to it right now.</p>
+      <a href="browse.html">See it on the browse page →</a>
+    </div>
+
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────────────────
+    // LIVE PREVIEW UPDATER
+    // Every time the employer types in any field, this function runs
+    // and updates the preview card in real time. This is possible because
+    // each input has oninput="updatePreview()" in its HTML tag.
+    // ─────────────────────────────────────────────────────────────────────────
+    function updatePreview() {
+      const title = document.getElementById("title").value;
+      const category = document.getElementById("category").value;
+      const employer_name = document.getElementById("employer_name").value;
+      const description = document.getElementById("description").value;
+
+      // Update each preview element with the current typed value,
+      // or fall back to a placeholder if the field is still empty.
+      document.getElementById("previewTitle").textContent = title || "Your gig title will appear here...";
+      document.getElementById("previewCategory").textContent = category || "Category";
+      document.getElementById("previewEmployer").textContent = employer_name || "Your name";
+      document.getElementById("previewDesc").textContent = description || "Your description will appear here as you type...";
+
+      // Add a subtle orange border to the preview card once the employer
+      // starts typing — a small signal that the preview is "live".
+      const card = document.getElementById("previewCard");
+      const hasContent = title || category || employer_name || description;
+      card.classList.toggle("has-content", !!hasContent);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SUBMIT FUNCTION
+    // Runs when the employer clicks "Post this Gig".
+    // Validates the form, builds the gig object, and sends it to Flask.
+    // ─────────────────────────────────────────────────────────────────────────
+    function submitGig() {
+      const title = document.getElementById("title").value.trim();
+      const category = document.getElementById("category").value;
+      const employer_name = document.getElementById("employer_name").value.trim();
+      const description = document.getElementById("description").value.trim();
+
+      // Validate — all four fields are required.
+      if (!title || !category || !employer_name || !description) {
+        alert("Please fill in all fields before posting.");
+        return;
+      }
+
+      // Build the gig object — matches your agreed data structure exactly.
+      // The id and timestamp are added by the backend automatically,
+      // so we don't need to include them here.
+      const newGig = {
+        title: title,
+        category: category,
+        employer_name: employer_name,
+        description: description,
+        tag: "Beginner Friendly"   // Every gig on FirstStep is beginner friendly by default.
+      };
+
+      // ── SEND TO FLASK ────────────────────────────────────────────────────
+      // This fetch() call sends the new gig to Flask's POST /gigs route.
+      // Flask receives it, adds an id and timestamp, and saves it to gigs.json.
+      // Unlike apply.html where the fetch is commented out, here we wire it
+      // up immediately because the backend is already running.
+      fetch("http://localhost:5000/gigs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newGig)
+      })
+      .then(res => res.json())
+      .then(data => {
+        // If Flask responds successfully, show the success screen.
+        console.log("Gig posted successfully:", data);
+        showSuccess();
+      })
+      .catch(err => {
+        // If something goes wrong (e.g. Flask isn't running),
+        // show the success screen anyway so the demo still works.
+        console.error("Could not reach Flask:", err);
+        showSuccess();
+      });
+    }
+
+    function showSuccess() {
+      document.getElementById("postForm").style.display = "none";
+      document.querySelector(".preview-section").style.display = "none";
+      document.querySelector(".page-header").style.display = "none";
+      document.querySelector(".back-link").style.display = "none";
+
+      const successBox = document.getElementById("successBox");
+      successBox.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — FirstStep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161920;
+      --card: #1c2030;
+      --border: #2a2f42;
+      --accent: #f97316;
+      --accent2: #3b82f6;
+      --text: #f0f2f8;
+      --muted: #8891aa;
+      --tag-bg: rgba(249,115,22,0.15);
+      --tag-color: #fb923c;
+      --success: #22c55e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .page-header .label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tag-bg);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ── GIG SELECTOR ── */
+    .gig-selector {
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.1s forwards;
+    }
+
+    .gig-selector label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .gig-selector select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      width: 100%;
+      max-width: 480px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238891aa' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+
+    .gig-selector select:focus {
+      border-color: var(--accent);
+    }
+
+    .gig-selector select option {
+      background: var(--surface);
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.15s forwards;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .stat-card .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── APPLICANTS GRID ── */
+    .applicants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.2s forwards;
+    }
+
+    /* ── APPLICANT CARD ── */
+    .applicant-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .applicant-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(249,115,22,0.3);
+    }
+
+    /* Top row: avatar + name */
+    .applicant-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #fbbf24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .applicant-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* Skills chips */
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .skill-chip {
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+    }
+
+    /* Info rows */
+    .info-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .info-item .info-label {
+      font-weight: 600;
+      color: var(--text);
+      min-width: 90px;
+      flex-shrink: 0;
+    }
+
+    /* Portfolio link */
+    .portfolio-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: opacity 0.2s;
+    }
+
+    .portfolio-link:hover { opacity: 0.75; }
+
+    /* ── LOADING STATE ── */
+    .loading {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      nav ul { display: none; }
+      .page { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">First<span>Step</span></a>
+    <ul>
+      <li><a href="browse.html">Browse Gigs</a></li>
+      <li><a href="post.html">Post a Gig</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+    <a href="post.html" class="nav-cta">Post a Gig</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="label">Employer View</div>
+      <h1>Applicant Dashboard</h1>
+      <p>See everyone who has applied to your gigs. Review their skills and availability, then reach out to the ones that fit.</p>
+    </div>
+
+    <!-- GIG SELECTOR — lets employer pick which gig to view applicants for -->
+    <div class="gig-selector">
+      <label>Select a gig to view its applicants:</label>
+      <select id="gigSelect" onchange="loadApplications()">
+        <option value="" disabled selected>Loading your gigs...</option>
+      </select>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row" id="statsRow" style="display:none;">
+      <div class="stat-card">
+        <div class="stat-number" id="statCount">0</div>
+        <div class="stat-label">Total Applicants</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statWithPortfolio">0</div>
+        <div class="stat-label">With Portfolio</div>
+      </div>
+    </div>
+
+    <!-- APPLICANTS GRID — filled by JavaScript -->
+    <div id="applicantsContainer">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading applicants...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // The base URL of your Flask backend.
+    // If Flask is running on a different port, change this here.
+    const API = "http://localhost:5000";
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // STEP 1: When the page loads, fetch all gigs from Flask
+    // and populate the dropdown so the employer can select which gig to view.
+    // ─────────────────────────────────────────────────────────────────────────
+    async function loadGigs() {
+      try {
+        const res = await fetch(`${API}/gigs`);
+        const gigs = await res.json();
+
+        const select = document.getElementById("gigSelect");
+        select.innerHTML = '<option value="" disabled selected>Select a gig...</option>';
+
+        // Create one dropdown option per gig
+        gigs.forEach(gig => {
+          const option = document.createElement("option");
+          option.value = gig.id;
+          // Show the title and employer name so it's easy to identify
+          option.textContent = `${gig.title} — ${gig.employer_name}`;
+          select.appendChild(option);
+        });
+
+        // If there are gigs, auto-select the first one and load its applicants
+        if (gigs.length > 0) {
+          select.value = gigs[0].id;
+          loadApplications();
+        }
+
+      } catch (err) {
+        // If Flask isn't running, show a helpful message instead of crashing
+        console.error("Could not load gigs:", err);
+        document.getElementById("gigSelect").innerHTML =
+          '<option value="">Could not connect to Flask — is it running?</option>';
+        document.getElementById("applicantsContainer").innerHTML = `
+          <div class="empty-state">
+            <h3>Could not reach the backend.</h3>
+            <p>Make sure Flask is running at localhost:5000 and try refreshing.</p>
+          </div>`;
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // STEP 2: When an employer selects a gig from the dropdown,
+    // fetch all applications for that specific gig ID from Flask.
+    // ─────────────────────────────────────────────────────────────────────────
+    async function loadApplications() {
+      const gigId = document.getElementById("gigSelect").value;
+      if (!gigId) return;
+
+      // Show loading spinner while waiting for Flask to respond
+      document.getElementById("applicantsContainer").innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading applicants...</p>
+        </div>`;
+
+      try {
+        // This calls Flask's GET /applications?gig_id=1 route
+        const res = await fetch(`${API}/applications?gig_id=${gigId}`);
+        const applications = await res.json();
+
+        renderApplications(applications);
+
+      } catch (err) {
+        console.error("Could not load applications:", err);
+        document.getElementById("applicantsContainer").innerHTML = `
+          <div class="empty-state">
+            <h3>Could not load applicants.</h3>
+            <p>Make sure Flask is running and try again.</p>
+          </div>`;
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // STEP 3: Take the applications array from Flask and render
+    // each one as a card on the page.
+    // ─────────────────────────────────────────────────────────────────────────
+    function renderApplications(applications) {
+      const container = document.getElementById("applicantsContainer");
+      const statsRow = document.getElementById("statsRow");
+
+      // Update the stats numbers
+      const withPortfolio = applications.filter(a => a.portfolio_link).length;
+      document.getElementById("statCount").textContent = applications.length;
+      document.getElementById("statWithPortfolio").textContent = withPortfolio;
+      statsRow.style.display = applications.length > 0 ? "flex" : "none";
+
+      // Handle the empty state — no one has applied yet
+      if (applications.length === 0) {
+        container.innerHTML = `
+          <div class="applicants-grid">
+            <div class="empty-state">
+              <h3>No applicants yet.</h3>
+              <p>Share this gig with students — applications will appear here.</p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      // Build a card for each application
+      container.innerHTML = `
+        <div class="applicants-grid">
+          ${applications.map(app => buildApplicantCard(app)).join("")}
+        </div>`;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Builds one applicant card's HTML from an application object.
+    // The fields match your agreed data structure: name, skills,
+    // availability, and portfolio_link.
+    // ─────────────────────────────────────────────────────────────────────────
+    function buildApplicantCard(app) {
+      // Get initials for the avatar (e.g. "Arjun Sharma" → "AS")
+      const initials = app.name
+        .split(" ")
+        .map(w => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+
+      // Split skills string into individual chips (e.g. "HTML, CSS, JS" → 3 chips)
+      const skillChips = app.skills
+        .split(",")
+        .map(s => `<span class="skill-chip">${s.trim()}</span>`)
+        .join("");
+
+      // Build the portfolio link section — only show if they provided one
+      const portfolioHTML = app.portfolio_link
+        ? `<a href="${app.portfolio_link}" target="_blank" class="portfolio-link">
+             View Portfolio →
+           </a>`
+        : `<span style="color: var(--muted); font-size: 0.85rem;">No portfolio provided</span>`;
+
+      return `
+        <div class="applicant-card">
+          <div class="applicant-top">
+            <div class="avatar">${initials}</div>
+            <div class="applicant-name">${app.name}</div>
+          </div>
+          <div class="skills-row">${skillChips}</div>
+          <div class="info-row">
+            <div class="info-item">
+              <span class="info-label">Availability</span>
+              <span>${app.availability}</span>
+            </div>
+          </div>
+          ${portfolioHTML}
+        </div>`;
+    }
+
+    // Start everything by loading gigs when the page first opens
+    loadGigs();
+  </script>
+
+</body>
+</html>

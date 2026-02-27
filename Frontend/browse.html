@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Gigs — FirstStep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg: #0d0f14;
+      --surface: #161920;
+      --card: #1c2030;
+      --border: #2a2f42;
+      --accent: #f97316;       /* warm orange — hopeful, energetic */
+      --accent2: #3b82f6;      /* blue for category tags */
+      --text: #f0f2f8;
+      --muted: #8891aa;
+      --tag-bg: rgba(249,115,22,0.15);
+      --tag-color: #fb923c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      /* subtle grain texture for depth */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO HEADER ── */
+    .hero {
+      padding: 4rem 2.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tag-bg);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding: 0 2.5rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ── GRID ── */
+    .gigs-grid {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 2.5rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ── GIG CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      /* staggered animation on load */
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.15s; }
+    .card:nth-child(3) { animation-delay: 0.25s; }
+    .card:nth-child(4) { animation-delay: 0.35s; }
+    .card:nth-child(5) { animation-delay: 0.45s; }
+    .card:nth-child(6) { animation-delay: 0.55s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(249,115,22,0.4);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,115,22,0.1);
+    }
+
+    /* Card top row: category + tag */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .category-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.2);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .beginner-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--tag-color);
+      background: var(--tag-bg);
+      border: 1px solid rgba(249,115,22,0.25);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .beginner-tag::before {
+      content: "★";
+      font-size: 0.65rem;
+    }
+
+    /* Card title */
+    .card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    /* Employer */
+    .employer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .employer-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #fbbf24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Description */
+    .card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      /* clamp to 3 lines */
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .timestamp {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .apply-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .apply-btn:hover {
+      opacity: 0.85;
+      transform: scale(1.03);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero, .filter-bar, .gigs-grid { padding-left: 1.25rem; padding-right: 1.25rem; }
+      nav ul { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">First<span>Step</span></div>
+    <ul>
+      <li><a href="browse.html" class="active">Browse Gigs</a></li>
+      <li><a href="post.html">Post a Gig</a></li>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+    <a href="post.html" class="nav-cta">Post a Gig</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">🚀 Zero experience required</div>
+    <h1>Your <em>first</em> real<br/>opportunity starts here.</h1>
+    <p>Browse micro-gigs posted by small businesses and entrepreneurs who are looking for beginners like you — not senior professionals.</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterGigs('All')">All</button>
+    <button class="filter-btn" onclick="filterGigs('Web Development')">Web Development</button>
+    <button class="filter-btn" onclick="filterGigs('Graphic Design')">Graphic Design</button>
+    <button class="filter-btn" onclick="filterGigs('Content Writing')">Content Writing</button>
+    <button class="filter-btn" onclick="filterGigs('Data Entry')">Data Entry</button>
+  </div>
+
+  <!-- GIG CARDS GRID -->
+  <div class="gigs-grid" id="gigsGrid">
+    <!-- Cards injected by JavaScript below -->
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // HARDCODED GIGS DATA
+    // This matches your agreed data structure exactly.
+    // Later, you'll replace this with a fetch() call to GET /gigs
+    // ─────────────────────────────────────────────────────────────
+    const gigs = [
+      {
+        id: "1",
+        title: "Build a Simple Portfolio Website",
+        category: "Web Development",
+        employer_name: "Ravi's Bakery",
+        description: "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed — just enthusiasm and willingness to learn!",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-27"
+      },
+      {
+        id: "2",
+        title: "Design a Logo for our NGO",
+        category: "Graphic Design",
+        employer_name: "GreenRoots NGO",
+        description: "Looking for a fresh graduate to design a simple, meaningful logo. We'll guide you through our vision and give you feedback along the way.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-27"
+      },
+      {
+        id: "3",
+        title: "Write Product Descriptions for Online Store",
+        category: "Content Writing",
+        employer_name: "Mira Boutique",
+        description: "We have 20 clothing products that need short, catchy descriptions for our website. Perfect first writing gig — we provide a template to follow.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-26"
+      },
+      {
+        id: "4",
+        title: "Data Entry — Customer Records",
+        category: "Data Entry",
+        employer_name: "LocalMed Clinic",
+        description: "Enter patient appointment data from paper forms into our Google Sheet. Attention to detail is all that's required. Flexible hours, work from home.",
+        tag: "Beginner Friendly",
+        timestamp: "2026-02-25"
+      }
+    ];
+
+    let currentFilter = "All";
+
+    // Get the first 2 letters of employer name for the avatar
+    function getInitials(name) {
+      return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    }
+
+    // Build one card's HTML from a gig object
+    function buildCard(gig) {
+      return `
+        <div class="card" data-category="${gig.category}">
+          <div class="card-meta">
+            <span class="category-badge">${gig.category}</span>
+            <span class="beginner-tag">${gig.tag}</span>
+          </div>
+          <h2>${gig.title}</h2>
+          <div class="employer">
+            <div class="employer-avatar">${getInitials(gig.employer_name)}</div>
+            ${gig.employer_name}
+          </div>
+          <p>${gig.description}</p>
+          <div class="card-footer">
+            <span class="timestamp">${gig.timestamp}</span>
+            <a href="apply.html?id=${gig.id}" class="apply-btn">Apply Now →</a>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render all gigs (or filtered subset) into the grid
+    function renderGigs(filter) {
+      const grid = document.getElementById("gigsGrid");
+      const filtered = filter === "All" ? gigs : gigs.filter(g => g.category === filter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty">
+            <h3>No gigs in this category yet.</h3>
+            <p>Check back soon or try a different filter.</p>
+          </div>`;
+        return;
+      }
+
+      // Re-render cards (reset animation by replacing innerHTML)
+      grid.innerHTML = filtered.map(buildCard).join("");
+    }
+
+    // Filter button click handler
+    function filterGigs(category) {
+      currentFilter = category;
+      // Update active button style
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.textContent === category || (category === "All" && btn.textContent === "All"));
+      });
+      renderGigs(category);
+    }
+
+    // Initial render on page load
+    renderGigs("All");
+  </script>
+
+</body>
+</html>

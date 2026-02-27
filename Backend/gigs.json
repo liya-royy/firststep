@@ -4,7 +4,7 @@
     "title": "Build a Simple Portfolio Website",
     "category": "Web Development",
     "employer_name": "Ravi's Bakery",
-    "description": "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed — just enthusiasm!",
+    "description": "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed \u00e2\u20ac\u201d just enthusiasm!",
     "tag": "Beginner Friendly",
     "timestamp": "2026-02-27"
   },
@@ -16,5 +16,14 @@
     "description": "Looking for a fresh graduate to design a simple, meaningful logo. We'll guide you through our vision.",
     "tag": "Beginner Friendly",
     "timestamp": "2026-02-27"
+  },
+  {
+    "title": "Enter recent shop finance",
+    "category": "Data Entry",
+    "employer_name": "Mazhavil Bakers",
+    "description": "2 months finance have to be entered",
+    "tag": "Beginner Friendly",
+    "id": "3",
+    "timestamp": "2026-02-28"
   }
 ]

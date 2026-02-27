@@ -68,7 +68,8 @@ def post_gig():
     
     # We auto-generate the ID based on how many gigs already exist.
     new_gig["id"] = str(len(gigs) + 1)
-    
+    from datetime import date
+    new_gig["timestamp"] = str(date.today())   # adds today's date automatically
     gigs.append(new_gig)
     write_json(GIGS_FILE, gigs)
     

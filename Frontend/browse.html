@@ -330,6 +330,20 @@
       margin-bottom: 0.5rem;
       color: var(--text);
     }
+    .taken-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #22c55e;
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.25);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+.taken-btn {
+  color: #22c55e;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
@@ -347,6 +361,7 @@
     <ul>
       <li><a href="browse.html" class="active">Browse Gigs</a></li>
       <li><a href="post.html">Post a Gig</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="index.html">Home</a></li>
     </ul>
     <a href="post.html" class="nav-cta">Post a Gig</a>
@@ -390,25 +405,30 @@
 
     // Build one card's HTML from a gig object
     function buildCard(gig) {
-      return `
-        <div class="card" data-category="${gig.category}">
-          <div class="card-meta">
-            <span class="category-badge">${gig.category}</span>
-            <span class="beginner-tag">${gig.tag}</span>
-          </div>
-          <h2>${gig.title}</h2>
-          <div class="employer">
-            <div class="employer-avatar">${getInitials(gig.employer_name)}</div>
-            ${gig.employer_name}
-          </div>
-          <p>${gig.description}</p>
-          <div class="card-footer">
-            <span class="timestamp">${gig.timestamp}</span>
-            <a href="apply.html?id=${gig.id}" class="apply-btn">Apply Now →</a>
-          </div>
-        </div>
-      `;
-    }
+  const taken = takenGigIds.has(gig.id);
+  return `
+    <div class="card" data-category="${gig.category}">
+      <div class="card-meta">
+        <span class="category-badge">${gig.category}</span>
+        ${taken
+          ? `<span class="taken-tag">✓ Taken</span>`
+          : `<span class="beginner-tag">${gig.tag}</span>`}
+      </div>
+      <h2>${gig.title}</h2>
+      <div class="employer">
+        <div class="employer-avatar">${getInitials(gig.employer_name)}</div>
+        ${gig.employer_name}
+      </div>
+      <p>${gig.description}</p>
+      <div class="card-footer">
+        <span class="timestamp">${gig.timestamp}</span>
+        ${taken
+          ? `<span class="taken-btn">✓ Position Filled</span>`
+          : `<a href="apply.html?id=${gig.id}" class="apply-btn">Apply Now →</a>`}
+      </div>
+    </div>
+  `;
+}
 
     // Render all gigs (or filtered subset) into the grid
     function renderGigs(filter) {
@@ -439,11 +459,16 @@
 
     // Initial render on page load
    let allGigs = [];
-
-async function loadGigs() {
+   let takenGigIds = new Set();
+  async function loadGigs() {
   try {
-    const res = await fetch("http://localhost:5000/gigs");
-    allGigs = await res.json();
+    const [gigsRes, appsRes] = await Promise.all([
+      fetch("http://localhost:5000/gigs"),
+      fetch("http://localhost:5000/applications")
+    ]);
+    allGigs = await gigsRes.json();
+    const applications = await appsRes.json();
+    applications.forEach(app => takenGigIds.add(app.gig_id));
     renderGigs("All");
   } catch (err) {
     console.error("Flask not reachable:", err);

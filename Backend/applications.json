@@ -6,5 +6,21 @@
     "availability": "Weekend",
     "portfolio_link": "",
     "id": "1"
+  },
+  {
+    "gig_id": "2",
+    "name": "libin",
+    "skills": "CSS",
+    "availability": "Monday",
+    "portfolio_link": "",
+    "id": "2"
+  },
+  {
+    "gig_id": "3",
+    "name": "Steve Roy",
+    "skills": "Java",
+    "availability": "Every Tuesday",
+    "portfolio_link": "",
+    "id": "3"
   }
 ]

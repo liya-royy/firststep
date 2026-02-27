@@ -25,5 +25,23 @@
     "tag": "Beginner Friendly",
     "id": "3",
     "timestamp": "2026-02-28"
+  },
+  {
+    "title": "Marketing content",
+    "category": "Content Writing",
+    "employer_name": "Liza bakery",
+    "description": "Have to write content for shop promotion",
+    "tag": "Beginner Friendly",
+    "id": "4",
+    "timestamp": "2026-02-28"
+  },
+  {
+    "title": "Design a name card for my Cafe",
+    "category": "Graphic Design",
+    "employer_name": "Brew & Bits Cafe",
+    "description": "We need a simple one page menu card designed for one small cafe .List of items will provided. Beginner designers welcome ,we will guide you!",
+    "tag": "Beginner Friendly",
+    "id": "5",
+    "timestamp": "2026-02-28"
   }
 ]

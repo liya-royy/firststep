@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Build a Simple Portfolio Website",
+    "category": "Web Development",
+    "employer_name": "Ravi's Bakery",
+    "description": "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed — just enthusiasm!",
+    "tag": "Beginner Friendly",
+    "timestamp": "2026-02-27"
+  },
+  {
+    "id": "2",
+    "title": "Design a Logo for our NGO",
+    "category": "Graphic Design",
+    "employer_name": "GreenRoots NGO",
+    "description": "Looking for a fresh graduate to design a simple, meaningful logo. We'll guide you through our vision.",
+    "tag": "Beginner Friendly",
+    "timestamp": "2026-02-27"
+  }
+]

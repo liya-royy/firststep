@@ -379,44 +379,7 @@
     // This matches your agreed data structure exactly.
     // Later, you'll replace this with a fetch() call to GET /gigs
     // ─────────────────────────────────────────────────────────────
-    const gigs = [
-      {
-        id: "1",
-        title: "Build a Simple Portfolio Website",
-        category: "Web Development",
-        employer_name: "Ravi's Bakery",
-        description: "We need a basic 3-page website showing our menu, location, and contact form. No prior experience needed — just enthusiasm and willingness to learn!",
-        tag: "Beginner Friendly",
-        timestamp: "2026-02-27"
-      },
-      {
-        id: "2",
-        title: "Design a Logo for our NGO",
-        category: "Graphic Design",
-        employer_name: "GreenRoots NGO",
-        description: "Looking for a fresh graduate to design a simple, meaningful logo. We'll guide you through our vision and give you feedback along the way.",
-        tag: "Beginner Friendly",
-        timestamp: "2026-02-27"
-      },
-      {
-        id: "3",
-        title: "Write Product Descriptions for Online Store",
-        category: "Content Writing",
-        employer_name: "Mira Boutique",
-        description: "We have 20 clothing products that need short, catchy descriptions for our website. Perfect first writing gig — we provide a template to follow.",
-        tag: "Beginner Friendly",
-        timestamp: "2026-02-26"
-      },
-      {
-        id: "4",
-        title: "Data Entry — Customer Records",
-        category: "Data Entry",
-        employer_name: "LocalMed Clinic",
-        description: "Enter patient appointment data from paper forms into our Google Sheet. Attention to detail is all that's required. Flexible hours, work from home.",
-        tag: "Beginner Friendly",
-        timestamp: "2026-02-25"
-      }
-    ];
+    
 
     let currentFilter = "All";
 
@@ -450,8 +413,7 @@
     // Render all gigs (or filtered subset) into the grid
     function renderGigs(filter) {
       const grid = document.getElementById("gigsGrid");
-      const filtered = filter === "All" ? gigs : gigs.filter(g => g.category === filter);
-
+      const filtered = filter === "All" ? allGigs : allGigs.filter(g => g.category === filter)
       if (filtered.length === 0) {
         grid.innerHTML = `
           <div class="empty">
@@ -476,7 +438,24 @@
     }
 
     // Initial render on page load
+   let allGigs = [];
+
+async function loadGigs() {
+  try {
+    const res = await fetch("http://localhost:5000/gigs");
+    allGigs = await res.json();
     renderGigs("All");
+  } catch (err) {
+    console.error("Flask not reachable:", err);
+    document.getElementById("gigsGrid").innerHTML = `
+      <div class="empty">
+        <h3>Could not load gigs.</h3>
+        <p>Make sure Flask is running.</p>
+      </div>`;
+  }
+}
+
+loadGigs();
   </script>
 
 </body>

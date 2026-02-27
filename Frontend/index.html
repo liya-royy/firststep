@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FirstStep — Your First Real Opportunity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161920;
+      --card: #1c2030;
+      --border: #2a2f42;
+      --accent: #f97316;
+      --text: #f0f2f8;
+      --muted: #8891aa;
+      --tag-bg: rgba(249,115,22,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13,15,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 7rem 2.5rem 5rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tag-bg);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* COUNTER STRIP */
+    .counter-strip {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 2.5rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.25s forwards;
+    }
+
+    .counter-item { text-align: center; }
+
+    .counter-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .counter-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* HOW IT WORKS */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.35s forwards;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .step-card:hover { border-color: rgba(249,115,22,0.3); }
+
+    .step-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.4;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
+    .step-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* WHO IS IT FOR */
+    .who-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.45s forwards;
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .who-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .who-card .who-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .who-card.student .who-tag {
+      color: #34d399;
+      background: rgba(52,211,153,0.12);
+      border: 1px solid rgba(52,211,153,0.2);
+    }
+
+    .who-card.employer .who-tag {
+      color: #60a5fa;
+      background: rgba(96,165,250,0.12);
+      border: 1px solid rgba(96,165,250,0.2);
+    }
+
+    .who-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .who-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .who-card a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* BOTTOM CTA */
+    .bottom-cta {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 5rem 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.55s forwards;
+    }
+
+    .bottom-cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .bottom-cta h2 span { color: var(--accent); }
+
+    .bottom-cta p {
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      nav ul { display: none; }
+      .who-grid { grid-template-columns: 1fr; }
+      .counter-strip { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">First<span>Step</span></a>
+    <ul>
+      <li><a href="browse.html">Browse Gigs</a></li>
+      <li><a href="post.html">Post a Gig</a></li>
+    </ul>
+    <a href="browse.html" class="nav-cta">Browse Gigs</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">🚀 Zero experience required</div>
+    <h1>Every job platform filters<br/>people <em>out.</em><br/>We filter them <em>in.</em></h1>
+    <p>FirstStep connects fresh graduates with small businesses who have real work to offer — no experience needed, no resume required.</p>
+    <div class="hero-buttons">
+      <a href="browse.html" class="btn-primary">Browse Gigs →</a>
+      <a href="post.html" class="btn-secondary">Post a Gig</a>
+    </div>
+  </div>
+
+  <!-- LIVE COUNTER -->
+  <div class="counter-strip">
+    <div class="counter-item">
+      <div class="counter-number" id="gigCount">—</div>
+      <div class="counter-label">Micro-gigs posted</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-number">38</div>
+      <div class="counter-label">First-time applicants</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-number">12</div>
+      <div class="counter-label">First opportunities created</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <h2>One clean flow. One first chance.</h2>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Employer posts a micro-gig</h3>
+        <p>Small tasks marked as Beginner Friendly — a website, a logo, data entry, a script. No formal hiring process.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Student browses and applies</h3>
+        <p>No resume. Just your skills, availability, and an optional work sample. Low friction by design.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Real work gets done</h3>
+        <p>The student delivers. The employer gets their task done. Both sides win from a low-risk exchange.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <h3>The student has proof</h3>
+        <p>Not a certificate. Actual work for an actual person. That proof opens every door that was locked before.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO IS IT FOR -->
+  <div class="who-section">
+    <div class="who-grid">
+      <div class="who-card student">
+        <div class="who-tag">For Students</div>
+        <h3>You have the skill. You just need the first chance.</h3>
+        <p>Fresh graduates from any college — especially those without campus placements or professional networks — who need one real completed task to get started.</p>
+        <a href="browse.html">Browse available gigs →</a>
+      </div>
+      <div class="who-card employer">
+        <div class="who-tag">For Employers</div>
+        <h3>Small task? Low stakes? Post it here.</h3>
+        <p>Small businesses, NGOs, and solo founders who need simple work done — without the overhead of a formal hiring process or the cost of experienced freelancers.</p>
+        <a href="post.html">Post a gig for free →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="bottom-cta">
+    <h2>The <span>first step</span> is the hardest one.</h2>
+    <p>We exist to make that step possible for every graduate, from every college, in every city.</p>
+    <div class="hero-buttons">
+      <a href="browse.html" class="btn-primary">Find your first gig →</a>
+    </div>
+  </div>
+
+  <script>
+    // Fetch live gig count from Flask and update the counter
+    fetch("http://localhost:5000/gigs")
+      .then(res => res.json())
+      .then(gigs => {
+        document.getElementById("gigCount").textContent = gigs.length;
+      })
+      .catch(() => {
+        // If Flask isn't running, show a static number
+        document.getElementById("gigCount").textContent = "14";
+      });
+  </script>
+
+</body>
+</html>
+```
+

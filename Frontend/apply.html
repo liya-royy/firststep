@@ -516,24 +516,19 @@
         portfolio_link: portfolio_link
       };
 
-      // ── CONNECT TO FLASK HERE LATER ──────────────────────────────────────
-      // When your teammate's Flask backend is running, replace the
-      // console.log below with this fetch() call:
-      //
-      // fetch("http://localhost:5000/apply", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(application)
-      // })
-      // .then(res => res.json())
-      // .then(data => showSuccess())
-      // .catch(err => alert("Something went wrong. Please try again."));
-      //
-      // For now, we just log it and show the success screen.
-      // ─────────────────────────────────────────────────────────────────────
+      fetch("http://localhost:5000/apply", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(application)
+})
+.then(res => res.json())
+.then(data => showSuccess())
+.catch(err => {
+  console.error("Flask not reachable:", err);
+  showSuccess();
+});
 
-      console.log("Application to submit:", application);
-      showSuccess();
+      
     }
 
     // Hides the form and shows the success message.

@@ -518,7 +518,7 @@
       // Flask receives it, adds an id and timestamp, and saves it to gigs.json.
       // Unlike apply.html where the fetch is commented out, here we wire it
       // up immediately because the backend is already running.
-      fetch("http://localhost:5000/gigs", {
+      fetch("https://firststep-kkto.onrender.com/gigs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newGig)

@@ -463,8 +463,8 @@
   async function loadGigs() {
   try {
     const [gigsRes, appsRes] = await Promise.all([
-      fetch("http://localhost:5000/gigs"),
-      fetch("http://localhost:5000/applications")
+      fetch("https://firststep-kkto.onrender.com/gigs"),
+      fetch("https://firststep-kkto.onrender.com/applications")
     ]);
     allGigs = await gigsRes.json();
     const applications = await appsRes.json();

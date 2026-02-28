@@ -460,7 +460,7 @@
 
   <script>
     // Fetch live gig count from Flask and update the counter
-    fetch("http://localhost:5000/gigs")
+    fetch("https://firststep-kkto.onrender.com/gigs")
       .then(res => res.json())
       .then(gigs => {
         document.getElementById("gigCount").textContent = gigs.length;

@@ -150,7 +150,7 @@ GET /applications?gig_id=1
 
 ## Project Demo
 ### Video
-[Add your demo video link here — Google Drive or YouTube]
+https://drive.google.com/file/d/1HsSvfF_jQIZyhMJVpWJs8Wp_gEDaIbbK/view?usp=drive_link
 
 Walk through: Homepage → Browse Gigs → Apply to a gig → Gig marked Taken → Post a new Gig → Dashboard showing applicants
 

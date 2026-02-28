@@ -1,9 +1,10 @@
 # FirstStep 🚀
 ## Basic Details
 **Team Name:** Pairadox
+
 ### Team Members
-- **Member 1:** Liya - [CEC]
-- **Member 2:** Ardra Vinu - [CEC]
+- **Member 1:** Liya - [Collage of engineering Chengannur]
+- **Member 2:** Ardra Vinu - [Collage of engineering Chengannur]
 
 ### Hosted Project Link
 [Add your hosted link here]
@@ -52,6 +53,18 @@ Then open `Frontend/index.html` in your browser.
 ## Project Documentation
 ### For Software:
 
+#### Screenshots (Add at least 3)
+![Homepage](screenshots/homepage.png)
+Homepage — hero section with Browse Gigs and Post a Gig buttons
+
+![Browse Gigs](screenshots/browse.png)
+Browse page showing gig cards with category filters and ✓ Taken badges
+
+![Apply Form](screenshots/apply.png)
+Student application form — name, skills and availability only, no resume
+
+![Dashboard](screenshots/dashboard.png)
+Employer dashboard showing all applicants with skills and availability
 
 #### Diagrams
 **System Architecture:**

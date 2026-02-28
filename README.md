@@ -54,16 +54,16 @@ Then open `Frontend/index.html` in your browser.
 ### For Software:
 
 #### Screenshots (Add at least 3)
-![Homepage](screenshot/homepage.jpeg)
+![Homepage](Screenshot/homepage.jpeg)
 Homepage — hero section with Browse Gigs and Post a Gig buttons
 
-![Browse Gigs](screenshot/browse.jpeg)
+![Browse Gigs](Screenshot/browse.jpeg)
 Browse page showing gig cards with category filters and ✓ Taken badges
 
-![Apply Form](screenshot/apply.jpeg)
+![Apply Form](Screenshot/apply.jpeg)
 Student application form — name, skills and availability only, no resume
 
-![Dashboard](screenshot/dashboard.jpeg)
+![Dashboard](Screenshot/dashboard.jpeg)
 Employer dashboard showing all applicants with skills and availability
 
 #### Diagrams

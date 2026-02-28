@@ -7,7 +7,7 @@
 - **Member 2:** Ardra Vinu - [Collage of engineering Chengannur]
 
 ### Hosted Project Link
-[Add your hosted link here]
+https://firststep-2.onrender.com/
 
 ## Project Description
 FirstStep is a micro-gig platform connecting fresh graduates with small businesses who have real beginner-friendly work to offer. Students apply with just their skills and availability — no resume, no experience needed. Once someone applies, the gig is marked Taken, ensuring zero competition for every listing.
@@ -54,16 +54,16 @@ Then open `Frontend/index.html` in your browser.
 ### For Software:
 
 #### Screenshots (Add at least 3)
-![Homepage](screenshots/homepage.png)
+![Homepage](Screenshot/homepage.jpeg)
 Homepage — hero section with Browse Gigs and Post a Gig buttons
 
-![Browse Gigs](screenshots/browse.png)
+![Browse Gigs](Screenshot/browse.jpeg)
 Browse page showing gig cards with category filters and ✓ Taken badges
 
-![Apply Form](screenshots/apply.png)
+![Apply Form](Screenshot/apply.jpeg)
 Student application form — name, skills and availability only, no resume
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshot/dashboard.jpeg)
 Employer dashboard showing all applicants with skills and availability
 
 #### Diagrams
@@ -150,7 +150,7 @@ GET /applications?gig_id=1
 
 ## Project Demo
 ### Video
-[Add your demo video link here — Google Drive or YouTube]
+https://drive.google.com/file/d/1HsSvfF_jQIZyhMJVpWJs8Wp_gEDaIbbK/view?usp=drive_link
 
 Walk through: Homepage → Browse Gigs → Apply to a gig → Gig marked Taken → Post a new Gig → Dashboard showing applicants
 

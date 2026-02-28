@@ -116,6 +116,9 @@ def get_applications():
 # debug=True means Flask will automatically restart whenever she saves a change
 # — she won't need to stop and restart the server manually every time.
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+    
 
 

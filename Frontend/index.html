@@ -457,11 +457,11 @@
       <a href="browse.html" class="btn-primary">Find your first gig →</a>
     </div>
   </div>
-
+  <script src="/api.js"></script>
   <script>
     // Fetch live gig count from Flask and update the counter
-    fetch("https://firststep-kkto.onrender.com/gigs")
-      .then(res => res.json())
+      fetch(API_URL + "/gigs")
+        .then(res => res.json())
       .then(gigs => {
         document.getElementById("gigCount").textContent = gigs.length;
       })

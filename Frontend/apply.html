@@ -420,6 +420,7 @@
 
   </div>
 
+  <script src="/api.js"></script>
   <script>
     // ─────────────────────────────────────────────────────────────────────────
     // SAME hardcoded gigs array as browse.html.
@@ -517,7 +518,7 @@
         portfolio_link: portfolio_link
       };
 
-      fetch("https://firststep-kkto.onrender.com/apply", {
+      fetch(API_URL + "/apply", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(application)

@@ -458,6 +458,7 @@
 
   </div>
 
+  <script src="/api.js"></script>
   <script>
     // ─────────────────────────────────────────────────────────────────────────
     // LIVE PREVIEW UPDATER
@@ -518,7 +519,7 @@
       // Flask receives it, adds an id and timestamp, and saves it to gigs.json.
       // Unlike apply.html where the fetch is commented out, here we wire it
       // up immediately because the backend is already running.
-      fetch("https://firststep-kkto.onrender.com/gigs", {
+      fetch(API_URL + "/gigs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newGig)

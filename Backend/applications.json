@@ -22,5 +22,13 @@
     "availability": "Every Tuesday",
     "portfolio_link": "",
     "id": "3"
+  },
+  {
+    "gig_id": "6",
+    "name": "Arjun",
+    "skills": "Javascript",
+    "availability": "Weekdays",
+    "portfolio_link": "",
+    "id": "4"
   }
 ]

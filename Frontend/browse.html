@@ -387,7 +387,7 @@
   <div class="gigs-grid" id="gigsGrid">
     <!-- Cards injected by JavaScript below -->
   </div>
-
+  <script src="/api.js"></script>
   <script>
     // ─────────────────────────────────────────────────────────────
     // HARDCODED GIGS DATA
@@ -463,8 +463,8 @@
   async function loadGigs() {
   try {
     const [gigsRes, appsRes] = await Promise.all([
-      fetch("https://firststep-kkto.onrender.com/gigs"),
-      fetch("https://firststep-kkto.onrender.com/applications")
+      fetch(API_URL + "/gigs"),
+      fetch(API_URL + "/applications")
     ]);
     allGigs = await gigsRes.json();
     const applications = await appsRes.json();

@@ -43,5 +43,14 @@
     "tag": "Beginner Friendly",
     "id": "5",
     "timestamp": "2026-02-28"
+  },
+  {
+    "title": "Cafe website",
+    "category": "Web Development",
+    "employer_name": "Big blends",
+    "description": "A small website with menus of cafe",
+    "tag": "Beginner Friendly",
+    "id": "6",
+    "timestamp": "2026-02-28"
   }
 ]

@@ -7,7 +7,7 @@
 - **Member 2:** Ardra Vinu - [Collage of engineering Chengannur]
 
 ### Hosted Project Link
-https://firststep-2.onrender.com/
+https://firststep-app.netlify.app/
 
 ## Project Description
 FirstStep is a micro-gig platform connecting fresh graduates with small businesses who have real beginner-friendly work to offer. Students apply with just their skills and availability — no resume, no experience needed. Once someone applies, the gig is marked Taken, ensuring zero competition for every listing.
